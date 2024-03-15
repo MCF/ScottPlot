@@ -91,13 +91,10 @@ public partial class MainWindow : Window
     private Pixel GetScaledMousePosition(MouseEventArgs e)
     {
         var position = e.GetPosition(WpfPlot1);
-
-        if (WpfPlot1.DisplayScale != WpfPlot1.Plot.ScaleFactor)
+        if (WpfPlot1.DisplayScale != 1.0)
         {
-            double scale = WpfPlot1.DisplayScale/WpfPlot1.Plot.ScaleFactor;
-
-            position.X *= scale;
-            position.Y *= scale;
+            position.X *= WpfPlot1.DisplayScale;
+            position.Y *= WpfPlot1.DisplayScale;
         }
 
         return new Pixel(position.X, position.Y);
@@ -106,10 +103,9 @@ public partial class MainWindow : Window
     private AxisLine? GetLineUnderMouse(float x, float y)
     {
         float r = 10;
-        if (WpfPlot1.DisplayScale != WpfPlot1.Plot.ScaleFactor)
+        if (WpfPlot1.DisplayScale != 1.0)
         {
-            float scale = WpfPlot1.DisplayScale/WpfPlot1.Plot.ScaleFactor;
-            r *= scale;
+            r *= WpfPlot1.DisplayScale;
         }
 
         CoordinateRect rect = WpfPlot1.Plot.GetCoordinateRect(x, y, radius: r);
