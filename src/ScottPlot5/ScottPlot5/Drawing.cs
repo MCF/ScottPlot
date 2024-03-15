@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using ScottPlot.Extensions;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace ScottPlot;
 
@@ -30,6 +32,12 @@ public static class Drawing
         return new PixelSize(width, height);
     }
 
+    public static (string text, PixelLength width) MeasureWidestString(string[] strings)
+    {
+        using SKPaint paint = new();
+        return MeasureWidestString(strings, paint);
+    }
+
     public static (string text, PixelLength width) MeasureWidestString(string[] strings, SKPaint paint)
     {
         float maxWidth = 0;
@@ -46,6 +54,12 @@ public static class Drawing
         }
 
         return (maxText, maxWidth);
+    }
+
+    public static (string text, PixelLength width) MeasureHighestString(string[] strings)
+    {
+        using SKPaint paint = new();
+        return MeasureHighestString(strings, paint);
     }
 
     public static (string text, PixelLength width) MeasureHighestString(string[] strings, SKPaint paint)
@@ -250,23 +264,38 @@ public static class Drawing
         canvas.DrawCircle(center.ToSKPoint(), radius, paint);
     }
 
+    public static void DrawOval(SKCanvas canvas, SKPaint paint, LineStyle lineStyle, PixelRect rect)
+    {
+        if (lineStyle.Width == 0 || lineStyle.Color == Colors.Transparent)
+            return;
+
+        lineStyle.ApplyToPaint(paint);
+        canvas.DrawOval(rect.ToSKRect(), paint);
+    }
+
+    public static void FillOval(SKCanvas canvas, SKPaint paint, FillStyle fillStyle, PixelRect rect)
+    {
+        fillStyle.ApplyToPaint(paint, rect);
+        canvas.DrawOval(rect.ToSKRect(), paint);
+    }
+
     public static void DrawMarker(SKCanvas canvas, SKPaint paint, Pixel pixel, MarkerStyle style)
     {
         if (!style.IsVisible)
             return;
 
         IMarker renderer = style.Shape.GetRenderer();
-
+        renderer.LineWidth = style.Outline.Width;
         renderer.Render(canvas, paint, pixel, style.Size, style.Fill, style.Outline);
     }
 
     public static void DrawMarkers(SKCanvas canvas, SKPaint paint, IEnumerable<Pixel> pixels, MarkerStyle style)
     {
-        if (!style.IsVisible)
+        if (!style.CanBeRendered)
             return;
 
         IMarker renderer = style.Shape.GetRenderer();
-
+        renderer.LineWidth = style.Outline.Width;
         foreach (Pixel pixel in pixels)
         {
             renderer.Render(canvas, paint, pixel, style.Size, style.Fill, style.Outline);
@@ -329,8 +358,11 @@ public static class Drawing
 
     public static void SavePng(SKSurface surface, string filename)
     {
-        using SKImage skimg = surface.Snapshot();
-        Image img = new(skimg);
-        img.SavePng(filename);
+        new Image(surface).SavePng(filename);
+    }
+
+    public static void DrawImage(SKCanvas canvas, Image image, PixelRect target, SKPaint paint, bool antiAlias = true)
+    {
+        image.Render(canvas, target, paint, antiAlias);
     }
 }
