@@ -1,5 +1,25 @@
-## ScottPlot 5.0.22
+## ScottPlot 5.0.23
 _Not yet on NuGet..._
+* Plot: Added `ShowLegend()` overload that does not override the current `Orientation` (#3450) @aespitia
+* Grid: The standard grid can be accessed via `Plot.Grid` instead of `GetDefaultGrid()`
+* Style: `Plot.Style.ColorLegend()` is deprecated. Access `Plot.Legend` properties directly as seen in the cookbook.
+* Style: `Plot.Style.ColorAxes()` has moved to `Plot.Axes.Color()`
+* Style: `Plot.Style.AxisFrame()` has moved to `Plot.Axes.Frame()`
+* Style: `Plot.Style.SetBestFonts()` has moved to `Plot.Font.Automatic()`
+* Grid: Added `Plot.Grid` with axis-specific styling options as seen in the cookbook (#3291, #3293) @bjschwarz, @PaxITIS
+* SignalXY: Fixed a bug where the final line segment was not drawn (#3495, #3423) @MareMare @mjazd
+* SignalXY: Improved support for inverted vertical axes (#3495) @MareMare
+* Controls: Ignore mouse wheel zooming if a zoom rectangle is being drawn (#3498) @BrianAtZetica
+* Controls: Improve axis lock behavior when dragging the mouse on a control (#3498) @BrianAtZetica
+* Heatmap: Added `Opacity` and `AlphaMap` properties to enhance transparency customization (#3499, #3349) @BrianAtZetica
+* Heatmap: Intensity values that are `double.NaN` are now displayed as transparent cells (#3499, #3349) @BrianAtZetica
+* Text: Added an `OffsetX` and `OffsetY` properties for adjusting text position in pixel units (#3506) @jamaa
+* Demo: Added a demonstration window for highlight the point nearest the cursor across multiple scatter plots (#3507, #3503) @jamaa @RubensMigliore
+* Polygon: Improved automatic axis limit detection of polygons (#3501) @drphobos
+* Annotation: New plot type for adding text labels aligned to the data area which are always visible (#3510, #3356) @dlampa
+
+## ScottPlot 5.0.22
+_Published on [NuGet](https://www.nuget.org/profiles/ScottPlot) on 2024-03-16_
 * Rendering: Added additional options for gradient fills (#3324) @KroMignon
 * Plot: Improve `GetPixel()` behavior when a custom `ScaleFactor` is in use (#3327) @MCF
 * Fonts: Improve behavior of cached typefaces (#3334, #3335) @Milkitic
@@ -31,7 +51,7 @@ _Not yet on NuGet..._
 * Heatmap: Added `FlipHorizontally` and `FlipVertically` properties (#3418, #3419) @BrianAtZetica
 * Heatmap: Fixed off-by-one render error when `Extent` is provided by the user (#3434, #3419) @BrianAtZetica
 * Heatmap: Added support for the `Smooth` property do render anti-aliased images (#3419) @BrianAtZetica
-* Ticks: Fix issue where manual ticks could be displayed outside the data area (#3425, #3427) @oktrue
+* Ticks: Fix issue where manual ticks could be displayed outside the data area (#3425, #3427, #3395) @oktrue @wsomegapoint
 * DataLogger and DataStreamer: prevent possible out-of-range exception when using the `Scroll` view mode (#3430, #3429) @KroMignon
 * Color: Added `MixWith()` and related methods to facilitate color mixing and creation of color gradients (#3443, #3441) @KroMignon
 * Pie: Added `DonutFraction` property to enable donut charts (#3447, #3438) @aespitia, @Prototipo-Erick-Santander
@@ -41,10 +61,18 @@ _Not yet on NuGet..._
 * Scatter: New `Add.ScatterPoints()` method creates a scatter plot with markers only and no line (#3462, #3452) @MCF
 * Ticks: Improve performance by reducing the number of string measurements (#3468) @drolevar
 * Plot: `GetCoordinateRect()` now returns dimensions that respect `ScaleFactor` (#3471) @MCF
-* Label: Added `Measure()` overloads to facilitate measuring arbitrary strings without modifying the label text (#3474, #3473) @aespitia
+* Label: Added `Measure()` overloads to facilitate measuring arbitrary strings without modifying the label text (#3474, #3473, #3458) @aespitia @David-A-Blankenship
+* Layout: Improved positioning of text for bottom tick labels with large font (#3436) @edwwsw
+* Legend: Improve international font support when `Plot.Style.SetBestFonts()` is used (#3440) @edwwsw @yui1227
+* Drawing: Do not draw rectangles if they have a line width of zero (#3384)
+* Ticks: Do not render ticks on `Axes` where `TickLabelStyle.IsVisible` is `false`
+* NuGet: Package now includes native Linux assets regardless of original build target (#3481, #3357)
+* Bar: Added `Label` property to allow values to be displayed above bars (#3477) @DouglasWatt
+* Axes: Added `Plot.Axes.SquareUnits()` helper method for adding an axis rule that enforces equal axis scales (#3451)
+* Pie: Fixed issue were pie charts may have duplicate legends (#3445)
 
 ## ScottPlot 4.1.72
-_Not yet on NuGet..._
+_Published on [NuGet](https://www.nuget.org/profiles/ScottPlot) on 2024-03-16_
 * DataLogger: Improve support for multi-axis plots (#3411) @drolevar
 
 ## ScottPlot 5.0.21
